@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import BooksForm from "./components/BooksForm/BooksForm";
+import BooksList from "./components/BooksList/BooksList";
 
-function App() {
+const App = () => {
+
+  const [books, setBooks] = useState([
+    { id: 1, title: 'of Mice and Man', author: 'John Steinbeck' },
+    { id: 2, title: 'the Witcher', author: 'Andrzej Sapkowski' }
+  ]);
+
+  const removeBook = bookId => {
+    setBooks(books.filter(book => book.id !== bookId))
+  };
+
+  const addBook = newBook => {
+    setBooks([...books, { 
+      id: Math.random().toString(), 
+      title: newBook.title, 
+      author: newBook.author }]);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Books App</h1>
+      <BooksList books={books} removeBook={removeBook} />
+      <BooksForm addBook={addBook} />
     </div>
   );
-}
+};
 
 export default App;
